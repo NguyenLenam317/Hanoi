@@ -1,47 +1,44 @@
 import { Switch, Route } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
-import NotFound from "@/pages/not-found";
-import Home from "@/pages/home";
-
-// Import Google Material Icons CSS
-import React, { useEffect } from "react";
+import { Toaster } from "./components/ui/toaster";
+import NotFound from "./pages/not-found";
+import Home from "./pages/home";
+import WeatherForecastPage from "./pages/weather-forecast";
+import ClimateChangePage from "./pages/climate-change";
+import HealthEnvironmentPage from "./pages/health-environment";
+import PredictiveAnalysisPage from "./pages/predictive-analysis";
+import ChatbotPage from "./pages/chatbot";
+import RecommendationsPage from "./pages/recommendations";
+import SustainabilityPage from "./pages/sustainability";
+import { ThemeProvider } from "./components/ui/theme-provider";
+import { SurveyProvider } from "./components/survey/survey-provider";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      {/* Other routes can be added here */}
+      <Route path="/weather-forecast" component={WeatherForecastPage} />
+      <Route path="/climate-change" component={ClimateChangePage} />
+      <Route path="/health-environment" component={HealthEnvironmentPage} />
+      <Route path="/predictive-analysis" component={PredictiveAnalysisPage} />
+      <Route path="/chatbot" component={ChatbotPage} />
+      <Route path="/recommendations" component={RecommendationsPage} />
+      <Route path="/sustainability" component={SustainabilityPage} />
       <Route component={NotFound} />
     </Switch>
   );
 }
 
 function App() {
-  // Load Google Material Icons
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.href = "https://fonts.googleapis.com/icon?family=Material+Icons";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
-
-    // Load Inter font
-    const fontLink = document.createElement("link");
-    fontLink.href = "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap";
-    fontLink.rel = "stylesheet";
-    document.head.appendChild(fontLink);
-
-    return () => {
-      document.head.removeChild(link);
-      document.head.removeChild(fontLink);
-    };
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
-      <Router />
-      <Toaster />
+      <ThemeProvider>
+        <SurveyProvider>
+          <Router />
+          <Toaster />
+        </SurveyProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
